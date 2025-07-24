@@ -21,9 +21,58 @@ This is a resource‑pack–based evolution of the [Foggy Pale Garden](https://m
 
 ## ✨ Features
 
-* Intelligent fog
-* Settings & localization
-* Presets
+<details>
+  <summary>🧠 Smart Fog in the Pale Garden Biome</summary>
+
+The resource pack not only adds fog but also takes your convenience into account.
+
+- 🪽 Fog dissipates when you fly over the biome above the cloud layer
+- 🕳️ Fog dissipates when you descend into caves beneath the biome
+
+</details>
+
+<details>
+  <summary>⏮️ Backport Support for “The Garden Awakens”</summary>
+
+Fog is added to every biome named `pale_garden`, providing automatic compatibility with almost all Pale Garden backport mods.
+
+Tested with:
+
+- [Pale Garden Backport: The Garden Awakens](https://modrinth.com/mod/pale-garden-backport)
+- [EarlyUpdate: Pale Garden](https://modrinth.com/mod/earlyupdate)
+- [The Pale Garden](https://modrinth.com/mod/the-pale-garden)
+- [Winter Drop Backport – Pale Garden](https://modrinth.com/mod/winter-drop-back-port-pale-garden)
+- [I Want It Earlier 1.21.4 (Pale Garden)](https://modrinth.com/mod/i-want-it-earlier)
+- [Pale Garden and Creaking](https://www.curseforge.com/minecraft/mc-mods/pale-garden)
+- [Pale Garden – Update](https://www.curseforge.com/minecraft/mc-mods/palegarden-update)
+- [DenizTK’s Pale & Lively Update](https://www.curseforge.com/minecraft/mc-mods/dtk-update)
+- [Bundles of Bravery (1.22)](https://www.curseforge.com/minecraft/mc-mods/bundles-of-bravery-1-22)
+
+</details>
+
+<details>
+  <summary>🔧 Visual Settings & Localization</summary>
+
+With the [Respackopts](https://modrinth.com/mod/respackopts) mod, you can adjust the fog settings and use built‑in presets directly
+from this resource pack.
+
+- `Radius` – how far the fog extends from the player
+- `Fade` – smoothness of fog dissipation
+- `Minimum Sky Light` – the sky brightness threshold below which fog clears (useful for caves and mines)
+- `Maximum Height` – the highest altitude at which fog appears (lets you fly above the biome without entering fog)
+
+</details>
+
+<details>
+  <summary>🎨 Fog Density Presets</summary>
+
+In the pack’s settings you’ll find several ready‑to‑use presets with varying fog densities:
+
+- `Ambient` – adds a light, atmospheric fog that doesn’t hinder movement
+- `I Am Not Afraid, But...` – introduces a slightly denser fog
+- `Stephen King` – a very thick fog that makes encountering a Creaking truly unexpected (just like in the novella *The Mist*)
+
+</details>
 
 ## 📥 Installation
 
