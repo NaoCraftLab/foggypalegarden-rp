@@ -1,0 +1,15 @@
+{
+  "rp.foggypalegarden.description": "Agrega niebla al bioma Jardín Pálido",
+  "rpo.foggypalegarden": "Foggy Pale Garden",
+  "rpo.foggypalegarden.fogRadius": "Radio",
+  "rpo.foggypalegarden.fogRadius.tooltip": "Qué tan lejos se extiende la niebla (1 desactiva cambios en el radio)",
+  "rpo.foggypalegarden.fogFade": "Desvanecimiento",
+  "rpo.foggypalegarden.fogFade.tooltip": "Suavidad de la transición de la niebla (0 sin transición, 1 por defecto)",
+  "rpo.foggypalegarden.minSkyLight": "Brillo mínimo del cielo",
+  "rpo.foggypalegarden.minSkyLight.tooltip": "La niebla se disipa cuando el brillo cae por debajo de este valor (útil para desactivar la niebla en cuevas)",
+  "rpo.foggypalegarden.maxHeight": "Altura máxima",
+  "rpo.foggypalegarden.maxHeight.tooltip": "La niebla se disipa por encima de esta altura (para no interferir con el vuelo sobre el bioma)",
+  "rpo.foggypalegarden.preset.3_ambiance": "Ambiente",
+  "rpo.foggypalegarden.preset.2_i_am_not_afraid_but": "No tengo miedo, pero...",
+  "rpo.foggypalegarden.preset.1_stephen_king": "Stephen King"
+}

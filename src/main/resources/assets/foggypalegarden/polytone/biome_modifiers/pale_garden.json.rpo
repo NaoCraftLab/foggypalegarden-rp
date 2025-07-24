@@ -1,0 +1,8 @@
+{
+  expansions: {
+    fogRadius: "foggypalegarden.fogRadius",
+    fogFade: "foggypalegarden.fogFade",
+    minSkyLight: "foggypalegarden.minSkyLight",
+    maxHeight: "foggypalegarden.maxHeight"
+  }
+}

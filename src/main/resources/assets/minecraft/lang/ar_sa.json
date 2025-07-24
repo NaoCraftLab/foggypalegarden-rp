@@ -1,0 +1,15 @@
+{
+  "rp.foggypalegarden.description": "يضيف ضبابًا إلى حديقة باهتة",
+  "rpo.foggypalegarden": "Foggy Pale Garden",
+  "rpo.foggypalegarden.fogRadius": "نصف القطر",
+  "rpo.foggypalegarden.fogRadius.tooltip": "المسافة التي يصل إليها الضباب (1 - لتعطيل تغيير نصف القطر)",
+  "rpo.foggypalegarden.fogFade": "التلاشي",
+  "rpo.foggypalegarden.fogFade.tooltip": "مدى سلاسة ظهور واختفاء الضباب (0 - بدون انتقال، 1 - الإعداد الافتراضي)",
+  "rpo.foggypalegarden.minSkyLight": "السطوع الأدنى للسماء",
+  "rpo.foggypalegarden.minSkyLight.tooltip": "يتلاشى الضباب عند انخفاض السطوع عن القيمة المحددة (لإيقاف الضباب في الكهوف)",
+  "rpo.foggypalegarden.maxHeight": "الارتفاع الأقصى",
+  "rpo.foggypalegarden.maxHeight.tooltip": "يتلاشى الضباب عند تجاوز الارتفاع للقيمة المحددة (حتى لا يعيق الطيران فوق المنطقة الحيوية)",
+  "rpo.foggypalegarden.preset.3_ambiance": "الأجواء",
+  "rpo.foggypalegarden.preset.2_i_am_not_afraid_but": "أنا لست خائفًا، لكن...",
+  "rpo.foggypalegarden.preset.1_stephen_king": "ستيفن كينغ"
+}

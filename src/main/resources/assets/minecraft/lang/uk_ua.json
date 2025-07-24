@@ -1,0 +1,15 @@
+{
+  "rp.foggypalegarden.description": "Додає туман у біом Блідий Сад",
+  "rpo.foggypalegarden": "Foggy Pale Garden",
+  "rpo.foggypalegarden.fogRadius": "Радіус",
+  "rpo.foggypalegarden.fogRadius.tooltip": "Відстань, на яку поширюється туман (1 — відключає зміну радіуса)",
+  "rpo.foggypalegarden.fogFade": "Згасання",
+  "rpo.foggypalegarden.fogFade.tooltip": "Наскільки плавним є поява та зникнення туману (0 – без згасання, 1 – за замовчуванням)",
+  "rpo.foggypalegarden.minSkyLight": "Мінімальна яскравість неба",
+  "rpo.foggypalegarden.minSkyLight.tooltip": "Туман зникає, коли яскравість нижча за це значення (щоб вимкнути туман у печерах)",
+  "rpo.foggypalegarden.maxHeight": "Максимальна висота",
+  "rpo.foggypalegarden.maxHeight.tooltip": "Туман зникає вище цієї висоти (щоб не заважати польоту над біомом)",
+  "rpo.foggypalegarden.preset.3_ambiance": "Атмосфера",
+  "rpo.foggypalegarden.preset.2_i_am_not_afraid_but": "Я не боюсь, але…",
+  "rpo.foggypalegarden.preset.1_stephen_king": "Стівен Кінґ"
+}

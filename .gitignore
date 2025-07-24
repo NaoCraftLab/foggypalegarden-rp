@@ -1,0 +1,16 @@
+### Apple macOS ###
+.DS_Store
+
+### JetBrains IntelliJ IDEA ###
+!.idea/icon.png
+.idea/
+*.iml
+*.ipr
+*.iws
+
+### JetBrains Fleet ###
+.fleet/
+
+### Gradle ###
+.gradle/
+build/

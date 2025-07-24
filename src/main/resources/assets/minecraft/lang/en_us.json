@@ -1,0 +1,15 @@
+{
+  "rp.foggypalegarden.description": "Adds fog to the Pale Garden biome",
+  "rpo.foggypalegarden": "Foggy Pale Garden",
+  "rpo.foggypalegarden.fogRadius": "Radius",
+  "rpo.foggypalegarden.fogRadius.tooltip": "How far the fog extends (1 disables radius changes)",
+  "rpo.foggypalegarden.fogFade": "Fade",
+  "rpo.foggypalegarden.fogFade.tooltip": "Smoothness of fog transition (0 for no fade, 1 for default)",
+  "rpo.foggypalegarden.minSkyLight": "Minimum Sky Light",
+  "rpo.foggypalegarden.minSkyLight.tooltip": "Fog clears when brightness falls below this value (useful to disable fog in caves)",
+  "rpo.foggypalegarden.maxHeight": "Maximum Height",
+  "rpo.foggypalegarden.maxHeight.tooltip": "Fog clears above this height (so it won’t interfere with flying over the biome)",
+  "rpo.foggypalegarden.preset.3_ambiance": "Ambiance",
+  "rpo.foggypalegarden.preset.2_i_am_not_afraid_but": "I Am Not Afraid, But...",
+  "rpo.foggypalegarden.preset.1_stephen_king": "Stephen King"
+}

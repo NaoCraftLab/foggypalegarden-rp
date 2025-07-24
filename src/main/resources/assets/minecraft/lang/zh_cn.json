@@ -1,0 +1,15 @@
+{
+  "rp.foggypalegarden.description": "在苍白花园生物群系中添加雾",
+  "rpo.foggypalegarden": "Foggy Pale Garden",
+  "rpo.foggypalegarden.fogRadius": "半径",
+  "rpo.foggypalegarden.fogRadius.tooltip": "雾气覆盖的距离（设置为 1 时禁用半径更改）",
+  "rpo.foggypalegarden.fogFade": "混合",
+  "rpo.foggypalegarden.fogFade.tooltip": "雾气出现和消散的平滑程度（0 – 无混合，1 – 默认）",
+  "rpo.foggypalegarden.minSkyLight": "最低天空亮度",
+  "rpo.foggypalegarden.minSkyLight.tooltip": "当亮度低于此值时雾消失（用于在洞穴中关闭雾气）",
+  "rpo.foggypalegarden.maxHeight": "最高高度",
+  "rpo.foggypalegarden.maxHeight.tooltip": "当高度超过此值时雾消失（以免妨碍在生物群系上方飞行）",
+  "rpo.foggypalegarden.preset.3_ambiance": "氛围",
+  "rpo.foggypalegarden.preset.2_i_am_not_afraid_but": "我不害怕，但…",
+  "rpo.foggypalegarden.preset.1_stephen_king": "斯蒂芬·金"
+}

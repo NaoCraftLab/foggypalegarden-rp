@@ -1,0 +1,5 @@
+{
+  "targets": ".*:pale_garden",
+  "fog_radius": "lerp(step(SKY_LIGHT, ${minSkyLight}) * step(${maxHeight} - POS_Y, 0), 1, ${fogRadius})",
+  "fog_fade": "lerp(step(SKY_LIGHT, ${minSkyLight}) * step(${maxHeight} - POS_Y, 0), 1, ${fogFade})"
+}

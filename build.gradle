@@ -1,0 +1,31 @@
+plugins {
+    id 'base'
+}
+
+def resourcePackDir = layout.buildDirectory.dir('files')
+
+tasks.register('assembleResourcePack', Copy) {
+    from 'src/main/resources'
+    from 'LICENSE'
+    from ('.idea/icon.png') {
+        rename { 'pack.png' }
+    }
+
+    into resourcePackDir
+}
+
+tasks.register('packageResourcePack', Zip) {
+    dependsOn 'assembleResourcePack'
+
+    from resourcePackDir
+    inputs.dir resourcePackDir
+
+    archiveFileName.set("$rpName $rpVersion" + '.zip')
+
+    destinationDirectory.set(layout.buildDirectory)
+}
+
+tasks.named('assemble') {
+    dependsOn 'assembleResourcePack'
+    dependsOn 'packageResourcePack'
+}

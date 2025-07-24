@@ -1,0 +1,15 @@
+{
+  "rp.foggypalegarden.description": "პალე ბაღის ბიომში ნისლს ამატებს",
+  "rpo.foggypalegarden": "Foggy Pale Garden",
+  "rpo.foggypalegarden.fogRadius": "რადიუსი",
+  "rpo.foggypalegarden.fogRadius.tooltip": "ნისლი გავრცელების მანძილი (1-ის შემთხვევაში რადიუსის ცვლილება გამორთულია)",
+  "rpo.foggypalegarden.fogFade": "გაფანტვა",
+  "rpo.foggypalegarden.fogFade.tooltip": "ნისლის გამოჩენისა და გაქრობის რბილი გადასვლა (0 – გადასვლა არ არის, 1 – ნაგულისხმევი)",
+  "rpo.foggypalegarden.minSkyLight": "ცის მინიმალური სიკაშკაშე",
+  "rpo.foggypalegarden.minSkyLight.tooltip": "ნისლი ქრება დაყენებულ სიკაშკაშეზე ქვემოთ (მღვიმეებში ნისლის გამორთვისთვის)",
+  "rpo.foggypalegarden.maxHeight": "მაქსიმალური სიმაღლე",
+  "rpo.foggypalegarden.maxHeight.tooltip": "ნისლი ქრება დაყენებული სიმაღლის ზემოთ (ბიომის თავზე ფრენა არ შეფერხდეს)",
+  "rpo.foggypalegarden.preset.3_ambiance": "ამბიენტი",
+  "rpo.foggypalegarden.preset.2_i_am_not_afraid_but": "მე არ მეშინია, მაგრამ…",
+  "rpo.foggypalegarden.preset.1_stephen_king": "სტივენ კინგი"
+}

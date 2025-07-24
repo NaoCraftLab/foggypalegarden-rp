@@ -1,0 +1,15 @@
+{
+  "rp.foggypalegarden.description": "淡い庭園バイオームに霧を追加します",
+  "rpo.foggypalegarden": "Foggy Pale Garden",
+  "rpo.foggypalegarden.fogRadius": "半径",
+  "rpo.foggypalegarden.fogRadius.tooltip": "霧が到達する距離 (1 に設定すると半径の変更が無効化されます)",
+  "rpo.foggypalegarden.fogFade": "フェード",
+  "rpo.foggypalegarden.fogFade.tooltip": "霧の立ち上がりと消失の滑らかさ (0 – フェードなし, 1 – デフォルト)",
+  "rpo.foggypalegarden.minSkyLight": "最小空の明るさ",
+  "rpo.foggypalegarden.minSkyLight.tooltip": "設定した明るさ以下で霧が消えます (洞窟内の霧を無効化するため)",
+  "rpo.foggypalegarden.maxHeight": "最大高度",
+  "rpo.foggypalegarden.maxHeight.tooltip": "設定した高度以上で霧が消えます (バイオーム上空の飛行を妨げないように)",
+  "rpo.foggypalegarden.preset.3_ambiance": "アンビエント",
+  "rpo.foggypalegarden.preset.2_i_am_not_afraid_but": "怖くはないけれど…",
+  "rpo.foggypalegarden.preset.1_stephen_king": "スティーヴン・キング"
+}

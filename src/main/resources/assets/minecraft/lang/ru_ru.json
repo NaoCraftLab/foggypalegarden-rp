@@ -1,0 +1,15 @@
+{
+  "rp.foggypalegarden.description": "Добавляет туман в биом Бледного Сада",
+  "rpo.foggypalegarden": "Foggy Pale Garden",
+  "rpo.foggypalegarden.fogRadius": "Радиус",
+  "rpo.foggypalegarden.fogRadius.tooltip": "Как далеко будет находиться туман (1 - отключить изменение радиуса)",
+  "rpo.foggypalegarden.fogFade": "Рассеивание",
+  "rpo.foggypalegarden.fogFade.tooltip": "Плавность нарастания/рассеивания тумана (0 - отсутствие перехода, 1 - переход по умолчанию)",
+  "rpo.foggypalegarden.minSkyLight": "Минимальная яркость неба",
+  "rpo.foggypalegarden.minSkyLight.tooltip": "Туман исчезает при яркости ниже заданной (для отключения тумана в пещерах)",
+  "rpo.foggypalegarden.maxHeight": "Максимальная высота",
+  "rpo.foggypalegarden.maxHeight.tooltip": "Туман исчезает выше заданной высоты (чтобы не мешать полёту над биомом)",
+  "rpo.foggypalegarden.preset.3_ambiance": "Эмбиент",
+  "rpo.foggypalegarden.preset.2_i_am_not_afraid_but": "Я не боюсь, но...",
+  "rpo.foggypalegarden.preset.1_stephen_king": "Стивен Кинг"
+}

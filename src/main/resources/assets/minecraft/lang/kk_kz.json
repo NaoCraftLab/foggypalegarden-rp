@@ -1,0 +1,15 @@
+{
+  "rp.foggypalegarden.description": "бозғылт бақ биомына тұман қосады",
+  "rpo.foggypalegarden": "Foggy Pale Garden",
+  "rpo.foggypalegarden.fogRadius": "Радиус",
+  "rpo.foggypalegarden.fogRadius.tooltip": "Туманның таралу қашықтығы (1 — радиусты өзгерту өшіріледі)",
+  "rpo.foggypalegarden.fogFade": "Жұмсару",
+  "rpo.foggypalegarden.fogFade.tooltip": "Туманның біртіндеп пайда болып және жоғалуы (0 — өшу жоқ, 1 — әдепкі)",
+  "rpo.foggypalegarden.minSkyLight": "Ең төменгі аспан жарығы",
+  "rpo.foggypalegarden.minSkyLight.tooltip": "Аспан жарығы белгіленген мәннен төмен болғанда туман жоғалады (үңгірдегі туманды өшіру үшін)",
+  "rpo.foggypalegarden.maxHeight": "Максималды биіктік",
+  "rpo.foggypalegarden.maxHeight.tooltip": "Туман белгіленген биіктікке жеткенде жоғалады (биом үстінде ұшуды кедермеу үшін)",
+  "rpo.foggypalegarden.preset.3_ambiance": "Амбианс",
+  "rpo.foggypalegarden.preset.2_i_am_not_afraid_but": "Мен қорықпаймын, бірақ…",
+  "rpo.foggypalegarden.preset.1_stephen_king": "Стивен Кинг"
+}

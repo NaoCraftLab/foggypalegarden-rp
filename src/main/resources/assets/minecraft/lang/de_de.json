@@ -1,0 +1,15 @@
+{
+  "rp.foggypalegarden.description": "Fügt Nebel im Blassen Garten hinzu",
+  "rpo.foggypalegarden": "Foggy Pale Garden",
+  "rpo.foggypalegarden.fogRadius": "Radius",
+  "rpo.foggypalegarden.fogRadius.tooltip": "Wie weit sich der Nebel ausbreitet (1 – Radiusänderung deaktivieren)",
+  "rpo.foggypalegarden.fogFade": "Ausblenden",
+  "rpo.foggypalegarden.fogFade.tooltip": "Wie sanft der Übergang von keinem Nebel zu Nebel erfolgt (0 – kein Übergang, 1 – Standardübergang)",
+  "rpo.foggypalegarden.minSkyLight": "Minimale Himmelshelligkeit",
+  "rpo.foggypalegarden.minSkyLight.tooltip": "Nebel verschwindet bei Helligkeit unter dem angegebenen Wert (um Nebel in Höhlen zu deaktivieren)",
+  "rpo.foggypalegarden.maxHeight": "Maximale Höhe",
+  "rpo.foggypalegarden.maxHeight.tooltip": "Nebel verschwindet oberhalb der angegebenen Höhe (um das Fliegen über dem Biom nicht zu stören)",
+  "rpo.foggypalegarden.preset.3_ambiance": "Ambiente",
+  "rpo.foggypalegarden.preset.2_i_am_not_afraid_but": "Ich habe keine Angst, aber...",
+  "rpo.foggypalegarden.preset.1_stephen_king": "Stephen King"
+}
