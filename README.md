@@ -9,22 +9,6 @@
   <img src="https://img.shields.io/static/v1?label=CurseForge&message=Platform&color=fb4e44&logo=curseforge&logoColor=white&style=for-the-badge" alt="CurseForge Platform" />
 </a>
 <br/>
-<a href="https://modrinth.com/mod/polytone">
-  <img
-    src="https://img.shields.io/static/v1?label=Modrinth&message=Polytone&color=1bd96a
-    &logoUrl=https%3A%2F%2Fcdn.modrinth.com%2Fdata%2F3qAYkBMB%2F828636188cd2427eb1158dd1e0bddd42d318ccbf_96.webp
-    &logoWidth=24&style=for-the-badge"
-    alt="Polytone on Modrinth"
-  />
-</a>
-<a href="https://modrinth.com/mod/respackopts">
-  <img
-    src="https://img.shields.io/static/v1?label=Modrinth&message=Respackopts&color=1bd96a
-    &logoUrl=https%3A%2F%2Fcdn.modrinth.com%2Fdata%2FTiF5QWZY%2F16b68a9cf4a526e0b03e77310c98040ac2e6225c_96.webp
-    &logoWidth=24&style=for-the-badge"
-    alt="Respackopts on Modrinth"
-  />
-</a>
 
 Resource Pack adds fog to the Pale Garden biome exactly as it appears in both vanilla and backporting mods.
 
