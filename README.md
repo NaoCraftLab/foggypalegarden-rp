@@ -9,6 +9,7 @@
   <img src="https://img.shields.io/static/v1?label=CurseForge&message=Platform&color=fb4e44&logo=curseforge&logoColor=white&style=for-the-badge" alt="CurseForge Platform" />
 </a>
 <br/>
+<br/>
 
 Resource Pack adds fog to the Pale Garden biome exactly as it appears in both vanilla and backporting mods.
 
