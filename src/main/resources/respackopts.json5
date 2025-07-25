@@ -1,8 +1,6 @@
 {
     id: "foggypalegarden",
-    version: ${
-    specRespackoptsVersion
-},
+    version: ${specRespackoptsVersion},
     capabilities: ["FileFilter", "DirFilter"],
     conf: {
         fogRadius: {
