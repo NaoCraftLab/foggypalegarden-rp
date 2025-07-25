@@ -38,15 +38,11 @@ Fog is added to every biome named `pale_garden`, providing automatic compatibili
 
 Tested with:
 
-- [Pale Garden Backport: The Garden Awakens](https://modrinth.com/mod/pale-garden-backport)
-- [EarlyUpdate: Pale Garden](https://modrinth.com/mod/earlyupdate)
-- [The Pale Garden](https://modrinth.com/mod/the-pale-garden)
-- [Winter Drop Backport – Pale Garden](https://modrinth.com/mod/winter-drop-back-port-pale-garden)
-- [I Want It Earlier 1.21.4 (Pale Garden)](https://modrinth.com/mod/i-want-it-earlier)
+- [Perfect Parity Neo: Pale Garden Awakens](https://modrinth.com/mod/perfect-parity-pale-garden-awakens)
+- [I want it earlier 1.21.4](https://modrinth.com/mod/i-want-it-earlier)
 - [Pale Garden and Creaking](https://www.curseforge.com/minecraft/mc-mods/pale-garden)
-- [Pale Garden – Update](https://www.curseforge.com/minecraft/mc-mods/palegarden-update)
-- [DenizTK’s Pale & Lively Update](https://www.curseforge.com/minecraft/mc-mods/dtk-update)
-- [Bundles of Bravery (1.22)](https://www.curseforge.com/minecraft/mc-mods/bundles-of-bravery-1-22)
+- [Pale Garden - Update](https://www.curseforge.com/minecraft/mc-mods/palegarden-update)
+- [Vanilla Backport](https://modrinth.com/mod/vanillabackport)
 
 </details>
 
@@ -82,6 +78,14 @@ Supported on all Minecraft versions and mod loaders that include Polytone v3 or 
 2. Install the [Respackopts](https://modrinth.com/mod/respackopts) mod to access pack settings and presets
 3. [Download](https://modrinth.com/resourcepack/foggypalegarden-rp) the resource pack and place it in your `resourcepacks` folder
 4. Enable **Foggy Pale Garden** in the in‑game resource pack menu
+
+## 🐞 Known Bugs
+
+### Presets Not Applied from Zip Archive
+
+Currently, presets are indeed not applied if the resource pack is loaded as a zip archive. However, they are successfully applied if it is loaded as a folder.
+
+It appears to be an issue with Respackopts. I have opened an issue in their tracker https://youtrack.frohnmeyer-wds.de/issue/RPO-40
 
 ## 🤗 Modpacks
 
