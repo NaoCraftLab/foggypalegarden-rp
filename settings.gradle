@@ -1,1 +1,9 @@
+pluginManagement {
+    includeBuild("buildPluginSrc")
+}
+
+plugins {
+    id 'com.naocraftlab.load-properties-settings-plugin'
+}
+
 rootProject.name = 'foggypalegarden-rp'

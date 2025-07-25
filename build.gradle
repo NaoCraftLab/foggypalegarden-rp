@@ -1,12 +1,21 @@
 plugins {
     id 'base'
+    id 'com.naocraftlab.apply-ext-properties-plugin'
 }
 
 def resourcePackDir = layout.buildDirectory.dir('files')
 
 tasks.register('assembleResourcePack', Copy) {
-    from 'src/main/resources'
+    from('src/main/resources') {
+        filter { line ->
+            line.replaceAll(/\$\{(\w+)\}/) { fullMatch, propName ->
+                //noinspection GroovyAssignabilityCheck
+                project.findProperty(propName)?.toString() ?: "\${$propName}"
+            }
+        }
+    }
     from 'LICENSE'
+    from 'CHANGELOG.md'
     from ('.idea/icon.png') {
         rename { 'pack.png' }
     }
@@ -20,7 +29,7 @@ tasks.register('packageResourcePack', Zip) {
     from resourcePackDir
     inputs.dir resourcePackDir
 
-    archiveFileName.set("$rpName $rpVersion" + '.zip')
+    archiveFileName.set("$rpName $rpVersion+${specMcVersions.split(',')[0].trim()}" + '.zip')
 
     destinationDirectory.set(layout.buildDirectory)
 }
