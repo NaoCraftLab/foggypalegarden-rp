@@ -69,11 +69,11 @@ from this resource pack.
 In the pack’s settings you’ll find several ready‑to‑use presets with varying fog densities:
 
 - `Ambient` – adds a light, atmospheric fog that doesn’t hinder movement
-  <img alt="fog.gif" src="publication/screenshots/preset-ambient.gif" width="480"/>
+  <br/><img alt="fog.gif" src="publication/screenshots/preset-ambient.gif" width="480"/>
 - `I Am Not Afraid, But...` – introduces a slightly denser fog
-  <img alt="fog.gif" src="publication/screenshots/preset-i-am-not-afraid-but.gif" width="480"/>
+  <br/><img alt="fog.gif" src="publication/screenshots/preset-i-am-not-afraid-but.gif" width="480"/>
 - `Stephen King` – a very thick fog that makes encountering a Creaking truly unexpected (just like in the novella *The Mist*)
-  <img alt="fog.gif" src="publication/screenshots/preset-stephen-king.gif" width="480"/>
+  <br/><img alt="fog.gif" src="publication/screenshots/preset-stephen-king.gif" width="480"/>
 
 </details>
 
