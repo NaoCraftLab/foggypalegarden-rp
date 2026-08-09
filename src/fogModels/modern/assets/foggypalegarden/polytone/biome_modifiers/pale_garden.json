@@ -1,0 +1,7 @@
+{
+  "targets": ${specPaleGardenTargets},
+  "attributes_modifiers": {
+    "minecraft:visual/fog_start_distance": "c.skyLight() >= ${minSkyLight} && c.y() <= ${maxHeight} ? (c.viewDistance() - clamp(c.viewDistance() / 10.0, 4.0, 64.0) * ${fogFade}) * ${fogRadius} : 0.0",
+    "minecraft:visual/fog_end_distance": "c.skyLight() >= ${minSkyLight} && c.y() <= ${maxHeight} ? c.viewDistance() * ${fogRadius} : 1024.0"
+  }
+}

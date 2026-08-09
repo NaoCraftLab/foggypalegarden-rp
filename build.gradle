@@ -1,40 +1,189 @@
+import com.naocraftlab.PublishReleaseTask
+import com.naocraftlab.TargetSpecification
+import com.naocraftlab.VerifyPublicationLogicTask
+import com.naocraftlab.VerifyResourcePackTask
+import org.gradle.api.file.DuplicatesStrategy
+
 plugins {
     id 'base'
     id 'com.naocraftlab.apply-ext-properties-plugin'
 }
 
-def resourcePackDir = layout.buildDirectory.dir('files')
-
-tasks.register('assembleResourcePack', Copy) {
-    from('src/main/resources') {
-        filter { line ->
-            line.replaceAll(/\$\{(\w+)\}/) { fullMatch, propName ->
-                //noinspection GroovyAssignabilityCheck
-                project.findProperty(propName)?.toString() ?: "\${$propName}"
-            }
-        }
+def loadPropertyMap = { File propertiesFile ->
+    def loaded = new Properties()
+    propertiesFile.withInputStream { loaded.load(it) }
+    loaded.stringPropertyNames().sort().collectEntries { key ->
+        [(key): loaded.getProperty(key).trim()]
     }
-    from 'LICENSE'
-    from 'CHANGELOG.md'
-    from ('.idea/icon.png') {
-        rename { 'pack.png' }
-    }
-
-    into resourcePackDir
 }
 
-tasks.register('packageResourcePack', Zip) {
-    dependsOn 'assembleResourcePack'
+def commonProperties = loadPropertyMap(file('gradle.properties'))
+TargetSpecification.validateCommon(commonProperties, 'gradle.properties')
+def targetPipelines = [:]
+fileTree('mcVersions') {
+    include '*.properties'
+}.files.sort { it.name }.each { File targetFile ->
+    String targetKey = targetFile.name - '.properties'
+    Map<String, String> targetOverrides = loadPropertyMap(targetFile)
+    TargetSpecification.validateOverrides(targetOverrides, targetFile.toString())
+    Map<String, String> targetProperties = new LinkedHashMap<>(commonProperties)
+    targetProperties.putAll(targetOverrides)
+    TargetSpecification.validate(targetProperties, targetFile.toString())
+    String taskSuffix = 'Mc' + targetKey.replaceAll(/[^A-Za-z0-9]+/, '_')
+    boolean configurable = TargetSpecification.configurable(targetProperties)
+    boolean includePresets = TargetSpecification.includesPresets(targetProperties)
+    String packMetadata = TargetSpecification.packMetadata(targetProperties)
+    String artifactVersion = TargetSpecification.artifactVersion(targetProperties)
+    String artifactName = "${targetProperties.rpName} ${targetProperties.rpVersion}+" +
+            "${artifactVersion}.zip"
+    def targetFilesDirectory = layout.buildDirectory.dir("targets/${targetKey}/files")
 
-    from resourcePackDir
-    inputs.dir resourcePackDir
+    Closure substituteTargetProperties = { String line ->
+        line.replaceAll(/\$\{(\w+)\}/) { fullMatch, propertyName ->
+            targetProperties.containsKey(propertyName)
+                    ? targetProperties[propertyName]
+                    : fullMatch
+        }
+    }
 
-    archiveFileName.set("$rpName $rpVersion+${specMcVersions.split(',')[0].trim()}" + '.zip')
+    def assembleTask = tasks.register("assemble${taskSuffix}ResourcePack", Copy) {
+        group = 'build'
+        description = "Assembles the Foggy Pale Garden resource pack for Minecraft ${targetProperties.specMcVersions}."
+        from('src/main/resources') {
+            if (!configurable) {
+                exclude 'respackopts.json5'
+                exclude '**/*.rpo'
+                exclude 'assets/respackopts/**'
+            } else if (!includePresets) {
+                exclude 'assets/respackopts/presets/**'
+            }
+            filter(substituteTargetProperties)
+        }
+        from("src/fogModels/${targetProperties.specFogModel}") {
+            filter(substituteTargetProperties)
+        }
+        from("src/packMetadata/${packMetadata}") {
+            filter(substituteTargetProperties)
+        }
+        from 'LICENSE'
+        from 'CHANGELOG.md'
+        from('.idea/icon.png') {
+            rename { 'pack.png' }
+        }
+        into targetFilesDirectory
+        duplicatesStrategy = DuplicatesStrategy.FAIL
+        inputs.properties(targetProperties)
+        inputs.file(targetFile)
+        inputs.file('gradle.properties')
+    }
 
-    destinationDirectory.set(layout.buildDirectory)
+    def packageTask = tasks.register("package${taskSuffix}ResourcePack", Zip) {
+        group = 'build'
+        description = "Packages the Foggy Pale Garden resource pack for Minecraft ${targetProperties.specMcVersions}."
+        dependsOn assembleTask
+        from targetFilesDirectory
+        archiveFileName.set(artifactName)
+        destinationDirectory.set(layout.buildDirectory.dir("targets/${targetKey}"))
+        preserveFileTimestamps = false
+        reproducibleFileOrder = true
+    }
+
+    def verifyTask = tasks.register("verify${taskSuffix}ResourcePack", VerifyResourcePackTask) { task ->
+        task.group = 'verification'
+        task.description = "Verifies the packaged resource pack for Minecraft ${targetProperties.specMcVersions}."
+        task.dependsOn packageTask
+        task.archiveFile.set(packageTask.flatMap { it.archiveFile })
+        task.targetKey.set(targetKey)
+        task.targetProperties.set(targetProperties)
+    }
+
+    targetPipelines[targetKey] = [
+            assemble: assembleTask,
+            package : packageTask,
+            verify  : verifyTask,
+    ]
+}
+
+def syncReleaseArtifacts = tasks.register('syncReleaseArtifacts', Sync) {
+    group = 'build'
+    description = 'Collects the complete verified target matrix in build/releases.'
+    dependsOn targetPipelines.values()*.verify
+    targetPipelines.values().each { pipeline ->
+        from(pipeline.package.flatMap { it.archiveFile })
+    }
+    into layout.buildDirectory.dir('releases')
+}
+
+def buildAllResourcePacks = tasks.register('buildAllResourcePacks') {
+    group = 'build'
+    description = 'Builds and verifies every supported Foggy Pale Garden target.'
+    dependsOn syncReleaseArtifacts
+}
+
+def verifyPublicationLogic = tasks.register('verifyPublicationLogic', VerifyPublicationLogicTask) {
+    group = 'verification'
+    description = 'Verifies publication naming, dependencies, idempotency, and multipart metadata.'
+    dependsOn buildAllResourcePacks
+    repositoryDirectory.set(layout.projectDirectory)
+    releasesDirectory.set(layout.buildDirectory.dir('releases'))
+    gradlePropertiesFile.set(layout.projectDirectory.file('gradle.properties'))
+    changelogFile.set(layout.projectDirectory.file('CHANGELOG.md'))
+}
+
+tasks.register('publicationPreflight', PublishReleaseTask) {
+    group = 'publishing'
+    description = 'Performs the complete read-only Modrinth and CurseForge publication preflight.'
+    dependsOn verifyPublicationLogic
+    repositoryDirectory.set(layout.projectDirectory)
+    releasesDirectory.set(layout.buildDirectory.dir('releases'))
+    gradlePropertiesFile.set(layout.projectDirectory.file('gradle.properties'))
+    changelogFile.set(layout.projectDirectory.file('CHANGELOG.md'))
+    targetPropertyFiles.from(fileTree('mcVersions') { include '*.properties' })
+    preflightOnly.set(true)
+}
+
+tasks.register('publishRelease', PublishReleaseTask) {
+    group = 'publishing'
+    description = 'Builds and publishes the current release to Modrinth, CurseForge, and GitHub.'
+    dependsOn verifyPublicationLogic
+    repositoryDirectory.set(layout.projectDirectory)
+    releasesDirectory.set(layout.buildDirectory.dir('releases'))
+    gradlePropertiesFile.set(layout.projectDirectory.file('gradle.properties'))
+    changelogFile.set(layout.projectDirectory.file('CHANGELOG.md'))
+    targetPropertyFiles.from(fileTree('mcVersions') { include '*.properties' })
+    preflightOnly.set(false)
+}
+
+String selectedTarget = (project.findProperty('mcVersion') ?: System.getenv('mcVersion'))?.toString()
+if (selectedTarget && !targetPipelines.containsKey(selectedTarget)) {
+    throw new GradleException("Unknown Minecraft target: ${selectedTarget}")
+}
+def selectedPipeline = selectedTarget ? targetPipelines[selectedTarget] : null
+tasks.register('assembleResourcePack') {
+    group = 'build'
+    description = selectedTarget
+            ? "Assembles the selected Minecraft target (${selectedTarget})."
+            : 'Assembles every Minecraft target.'
+    dependsOn selectedPipeline ? selectedPipeline.assemble : targetPipelines.values()*.assemble
+}
+tasks.register('packageResourcePack') {
+    group = 'build'
+    description = selectedTarget
+            ? "Packages the selected Minecraft target (${selectedTarget})."
+            : 'Packages every Minecraft target.'
+    dependsOn selectedPipeline ? selectedPipeline.package : targetPipelines.values()*.package
+}
+tasks.register('verifyResourcePack') {
+    group = 'verification'
+    description = selectedTarget
+            ? "Verifies the selected Minecraft target (${selectedTarget})."
+            : 'Verifies every Minecraft target.'
+    dependsOn selectedPipeline ? selectedPipeline.verify : targetPipelines.values()*.verify
 }
 
 tasks.named('assemble') {
-    dependsOn 'assembleResourcePack'
-    dependsOn 'packageResourcePack'
+    dependsOn buildAllResourcePacks
+}
+tasks.named('check') {
+    dependsOn verifyPublicationLogic
 }

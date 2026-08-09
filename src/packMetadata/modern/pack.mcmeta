@@ -1,0 +1,10 @@
+{
+  "pack": {
+    "min_format": ${specPackMinFormat},
+    "max_format": ${specPackMaxFormat},
+    "description": {
+      "translate": "rp.foggypalegarden.description",
+      "fallback": "Adds fog to the Pale Garden biome"
+    }
+  }
+}

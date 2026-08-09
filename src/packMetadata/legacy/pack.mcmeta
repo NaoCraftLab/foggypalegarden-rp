@@ -1,9 +1,9 @@
 {
   "pack": {
-    "pack_format": 15,
+    "pack_format": ${specPackMinFormat},
     "supported_formats": {
-      "min_inclusive": 15,
-      "max_inclusive": 99
+      "min_inclusive": ${specPackMinFormat},
+      "max_inclusive": ${specPackMaxFormat}
     },
     "description": {
       "translate": "rp.foggypalegarden.description",

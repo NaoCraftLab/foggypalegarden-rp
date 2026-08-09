@@ -1,3 +1,9 @@
+## 1.0.1
+
+### Fixed
+
+- Korean localization
+
 ## 1.0.0
 
 ### Added

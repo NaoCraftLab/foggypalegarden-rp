@@ -1,5 +1,6 @@
 {
   "rp.foggypalegarden.description": "창백한 정원 바이옴에 안개를 추가합니다",
+  "rpo.foggypalegarden": "Foggy Pale Garden",
   "rpo.foggypalegarden.fogRadius": "반경",
   "rpo.foggypalegarden.fogRadius.tooltip": "안개가 도달하는 거리 (1로 설정하면 반경 변경이 비활성화됩니다)",
   "rpo.foggypalegarden.fogFade": "페이드",
