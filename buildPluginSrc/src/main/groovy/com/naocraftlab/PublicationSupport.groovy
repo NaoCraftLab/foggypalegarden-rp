@@ -107,7 +107,20 @@ final class PublicationSupport {
         requireState(actualArtifacts == expectedArtifacts,
                 "release artifact set does not match targets: expected=${expectedArtifacts.sort()}, " +
                         "actual=${actualArtifacts.sort()}")
+        requireUniqueArtifactContents(targets)
         targets
+    }
+
+    static void requireUniqueArtifactContents(List<Map<String, Object>> targets) {
+        List<List<Map<String, Object>>> duplicates = targets.groupBy {
+            it.artifactSha512
+        }.values().findAll { it.size() > 1 }
+        List<String> descriptions = duplicates.collect { group ->
+            group.collect { "${it.key} (${it.artifactName})" }.join(', ')
+        }
+        requireState(duplicates.empty,
+                'identical release artifacts must be represented by one target with combined ' +
+                        'specMcVersions:\n- ' + descriptions.join('\n- '))
     }
 
     static Map<String, Object> classify(String platform,

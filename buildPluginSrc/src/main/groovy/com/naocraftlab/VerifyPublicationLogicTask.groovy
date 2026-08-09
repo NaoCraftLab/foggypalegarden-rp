@@ -65,7 +65,10 @@ abstract class VerifyPublicationLogicTask extends DefaultTask {
             it.uploadFilename == "${common.rpName}.zip"
         }, 'external upload filename changed')
 
-        Set<String> legacyKeys = ['1.21.1', '1.21.2', '1.21.3', '1.21.4']
+        PublicationSupport.requireState(
+                byKey['1.21.2'].gameVersions == ['1.21.2', '1.21.3'],
+                '1.21.2 and 1.21.3 must share one publication target')
+        Set<String> legacyKeys = ['1.21.1', '1.21.2', '1.21.4']
         List<Map<String, Object>> modrinth = targets.findAll { legacyKeys.contains(it.key) }
                 .collect { VerifyPublicationLogicTask.exactModrinth(it) }
         List<Map<String, Object>> curseforge = targets.findAll { legacyKeys.contains(it.key) }
@@ -90,8 +93,20 @@ abstract class VerifyPublicationLogicTask extends DefaultTask {
         }
         PublicationSupport.requireState(
                 [modrinthSkips, modrinthUploads, curseforgeSkips, curseforgeUploads] ==
-                        [4, targets.size() - 4, 4, targets.size() - 4],
-                'expected four existing legacy targets and every newer target missing')
+                        [3, targets.size() - 3, 3, targets.size() - 3],
+                'expected three existing legacy target families and every newer target missing')
+
+        boolean duplicateArtifactsRejected = false
+        try {
+            PublicationSupport.requireUniqueArtifactContents([
+                    [key: 'duplicate-a', artifactName: 'a.zip', artifactSha512: 'same'],
+                    [key: 'duplicate-b', artifactName: 'b.zip', artifactSha512: 'same'],
+            ])
+        } catch (IllegalStateException exception) {
+            duplicateArtifactsRejected = exception.message.contains('combined specMcVersions')
+        }
+        PublicationSupport.requireState(duplicateArtifactsRejected,
+                'identical target artifacts must fail before publication')
 
         PublicationSupport.requireState(targets.every {
             PublicationSupport.classify('modrinth', it, []).action == 'upload' &&
