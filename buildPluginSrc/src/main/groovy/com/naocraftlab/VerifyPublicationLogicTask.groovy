@@ -107,6 +107,10 @@ abstract class VerifyPublicationLogicTask extends DefaultTask {
             PublicationSupport.classify('modrinth', it, allModrinth).action == 'skip' &&
                     PublicationSupport.classify('curseforge', it, allCurseforge).action == 'skip'
         }, 'an immediate rerun must skip every target')
+        PublicationSupport.requireState(targets.every {
+            PublicationSupport.classify('modrinth', it, allModrinth).action == 'skip' &&
+                    PublicationSupport.classify('curseforge', it, []).action == 'upload'
+        }, 'a rerun after Modrinth-only publication must skip Modrinth and upload CurseForge')
         Map<String, Object> partialTarget = byKey['1.21.11']
         PublicationSupport.requireState(
                 PublicationSupport.classify('modrinth', partialTarget,
@@ -180,6 +184,11 @@ abstract class VerifyPublicationLogicTask extends DefaultTask {
                         curseforgeMetadata.releaseType == 'release' &&
                         curseforgeMetadata.changelogType == 'markdown',
                 'CurseForge upload metadata changed')
+        List<Map<String, Object>> curseforgeRelations = curseforgeMetadata.relations.projects
+        PublicationSupport.requireState(
+                curseforgeRelations*.projectID.every { it instanceof Integer } &&
+                        curseforgeRelations*.projectID.toSet() == [958094, 430090] as Set<Integer>,
+                'CurseForge relation project IDs must be JSON integers')
         Map<String, Object> betaCurseforgeMetadata =
                 PublicationSupport.curseforgeMetadata(byKey['1.20.1'])
         PublicationSupport.requireState(
@@ -202,6 +211,11 @@ abstract class VerifyPublicationLogicTask extends DefaultTask {
         PublicationSupport.requireState(
                 multipartText.contains('filename="Foggy Pale Garden.zip"'),
                 'multipart generic filename changed')
+        PublicationSupport.requireState(
+                multipartText.contains('"projectID":958094') &&
+                        multipartText.contains('"projectID":430090') &&
+                        !multipartText.contains('"projectID":"'),
+                'multipart CurseForge relation project IDs must be serialized as numbers')
         logger.lifecycle("verified publication model: ${targets.size()} targets and " +
                 "deterministic empty, partial, rerun, conflict, and channel-transition fixtures")
     }

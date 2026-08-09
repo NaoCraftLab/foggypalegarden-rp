@@ -294,7 +294,8 @@ final class PublicationSupport {
                 relations               : [projects: CURSEFORGE_DEPENDENCIES
                         .findAll { slug, id -> target.curseforgeDependencies.contains(id) }
                         .collect { slug, id ->
-                            [slug: slug, projectID: id, type: 'requiredDependency']
+                            [slug: slug, projectID: Integer.parseInt(id),
+                             type: 'requiredDependency']
                         }],
         ]
     }
