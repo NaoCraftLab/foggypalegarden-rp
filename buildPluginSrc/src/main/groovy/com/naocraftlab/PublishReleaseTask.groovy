@@ -125,7 +125,9 @@ abstract class PublishReleaseTask extends DefaultTask {
         publishGithub(common.rpName, packVersion, changelog, targets, github)
     }
 
-    private Map<String, Map<String, Map<String, Object>>> classifyAll(
+    // Gradle decorates task types, and Groovy closures resolve helper calls through the MOP.
+    // Keep instance helpers non-private so decorated tasks can dispatch them from closures.
+    Map<String, Map<String, Map<String, Object>>> classifyAll(
             List<Map<String, Object>> targets,
             Map<String, List<Map<String, Object>>> remote) {
         Map<String, Map<String, Map<String, Object>>> states = [modrinth: [:], curseforge: [:]]
@@ -139,7 +141,7 @@ abstract class PublishReleaseTask extends DefaultTask {
         states
     }
 
-    private void requireNoConflicts(
+    void requireNoConflicts(
             List<Map<String, Object>> targets,
             Map<String, Map<String, Map<String, Object>>> states) {
         List<String> conflicts = []
@@ -155,7 +157,7 @@ abstract class PublishReleaseTask extends DefaultTask {
                 'publication preflight found conflicts:\n- ' + conflicts.join('\n- '))
     }
 
-    private List<Map<String, Object>> fetchModrinth(String token) {
+    List<Map<String, Object>> fetchModrinth(String token) {
         String url = "${apiBase('MODRINTH_API_BASE', 'https://api.modrinth.com/v2')}" +
                 "/project/${PublicationSupport.MODRINTH_PROJECT_ID}/version"
         Object payload = json(request('GET', url, ['Authorization': token], null, null,
@@ -165,7 +167,7 @@ abstract class PublishReleaseTask extends DefaultTask {
         payload.findAll { it instanceof Map } as List<Map<String, Object>>
     }
 
-    private List<Map<String, Object>> fetchCurseforge(String apiKey) {
+    List<Map<String, Object>> fetchCurseforge(String apiKey) {
         String base = apiBase('CURSEFORGE_API_BASE', 'https://api.curseforge.com')
         int index = 0
         int pageSize = 50
@@ -200,7 +202,7 @@ abstract class PublishReleaseTask extends DefaultTask {
         files
     }
 
-    private String uploadModrinth(Map<String, Object> target, String token) {
+    String uploadModrinth(Map<String, Object> target, String token) {
         Map metadata = PublicationSupport.modrinthMetadata(target)
         String boundary = "FoggyPaleGarden${UUID.randomUUID().toString().replace('-', '')}"
         byte[] body = PublicationSupport.multipart([
@@ -219,7 +221,7 @@ abstract class PublishReleaseTask extends DefaultTask {
         payload.id.toString()
     }
 
-    private String uploadCurseforge(Map<String, Object> target, String token) {
+    String uploadCurseforge(Map<String, Object> target, String token) {
         Map metadata = PublicationSupport.curseforgeMetadata(target)
         String boundary = "FoggyPaleGarden${UUID.randomUUID().toString().replace('-', '')}"
         byte[] body = PublicationSupport.multipart([
@@ -243,7 +245,7 @@ abstract class PublishReleaseTask extends DefaultTask {
         id.toString()
     }
 
-    private void publishGithub(String packName,
+    void publishGithub(String packName,
                                String packVersion,
                                String changelog,
                                List<Map<String, Object>> targets,
@@ -308,7 +310,7 @@ abstract class PublishReleaseTask extends DefaultTask {
                 "with ${targets.size()} assets from ${sha}.\n\n")
     }
 
-    private Map<String, String> validateGithubMain() {
+    Map<String, String> validateGithubMain() {
         String token = requireSecret('GITHUB_TOKEN')
         String repository = requireSecret('GITHUB_REPOSITORY')
         String sha = requireSecret('GITHUB_SHA')
@@ -320,7 +322,7 @@ abstract class PublishReleaseTask extends DefaultTask {
         [token: token, repository: repository, sha: sha, base: base]
     }
 
-    private void assertCurrentMain(String base,
+    void assertCurrentMain(String base,
                                    String repository,
                                    String sha,
                                    Map<String, String> headers,
@@ -331,7 +333,7 @@ abstract class PublishReleaseTask extends DefaultTask {
                 "workflow commit ${sha} is not the current main HEAD")
     }
 
-    private Map<String, String> githubHeaders(String token) {
+    Map<String, String> githubHeaders(String token) {
         [
                 'Authorization'       : "Bearer ${token}",
                 'Accept'              : 'application/vnd.github+json',
@@ -339,7 +341,7 @@ abstract class PublishReleaseTask extends DefaultTask {
         ]
     }
 
-    private HttpResult request(String method,
+    HttpResult request(String method,
                                String url,
                                Map<String, String> headers,
                                byte[] body,
@@ -381,7 +383,7 @@ abstract class PublishReleaseTask extends DefaultTask {
         new HttpResult(response.statusCode(), responseBody)
     }
 
-    private Object json(HttpResult response) {
+    Object json(HttpResult response) {
         if (!response.body) {
             return [:]
         }
@@ -392,21 +394,21 @@ abstract class PublishReleaseTask extends DefaultTask {
         }
     }
 
-    private String requireSecret(String name) {
+    String requireSecret(String name) {
         String value = System.getenv(name)?.trim()
         PublicationSupport.requireState(value, "required environment variable ${name} is not set")
         value
     }
 
-    private String apiBase(String name, String fallback) {
+    String apiBase(String name, String fallback) {
         (System.getenv(name) ?: fallback).replaceAll('/+$', '')
     }
 
-    private String encodePath(String value) {
+    String encodePath(String value) {
         URLEncoder.encode(value, StandardCharsets.UTF_8.name()).replace('+', '%20')
     }
 
-    private List<List<String>> summaryRows(List<Map<String, Object>> targets,
+    List<List<String>> summaryRows(List<Map<String, Object>> targets,
                                            Map<String, Map<String, Map<String, Object>>> states) {
         List<List<String>> rows = []
         targets.each { target ->
@@ -419,14 +421,14 @@ abstract class PublishReleaseTask extends DefaultTask {
         rows
     }
 
-    private String renderPlan(List<Map<String, Object>> targets,
+    String renderPlan(List<Map<String, Object>> targets,
                               Map<String, Map<String, Map<String, Object>>> states) {
         summaryRows(targets, states).collect { row ->
             "${row[1]} ${row[0]}: ${row[2]}${row[3] ? " (${row[3]})" : ''}"
         }.join('\n')
     }
 
-    private void appendSummary(String heading, List<List<String>> rows) {
+    void appendSummary(String heading, List<List<String>> rows) {
         StringBuilder output = new StringBuilder("## ${heading}\n\n")
         output.append('| Target | Platform | Result | Remote ID |\n')
         output.append('| --- | --- | --- | --- |\n')
@@ -437,7 +439,7 @@ abstract class PublishReleaseTask extends DefaultTask {
         appendRawSummary(output.toString())
     }
 
-    private void appendRawSummary(String text) {
+    void appendRawSummary(String text) {
         String path = System.getenv('GITHUB_STEP_SUMMARY')
         if (path) {
             new File(path).append(text, StandardCharsets.UTF_8.name())

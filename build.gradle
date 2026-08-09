@@ -154,6 +154,27 @@ tasks.register('publishRelease', PublishReleaseTask) {
     preflightOnly.set(false)
 }
 
+def verifyPublicationTaskDispatch = tasks.register('verifyPublicationTaskDispatch') {
+    group = 'verification'
+    description = 'Verifies that Gradle-decorated publication tasks expose closure-dispatched helpers.'
+    doLast {
+        PublishReleaseTask publicationTask = tasks.named('publishRelease').get() as PublishReleaseTask
+        ['uploadModrinth', 'uploadCurseforge', 'request'].each { String methodName ->
+            if (publicationTask.metaClass.respondsTo(publicationTask, methodName).empty) {
+                throw new GradleException(
+                        "PublishReleaseTask helper '${methodName}' is not visible to Groovy closure dispatch")
+            }
+        }
+    }
+}
+
+tasks.named('publicationPreflight') {
+    dependsOn verifyPublicationTaskDispatch
+}
+tasks.named('publishRelease') {
+    dependsOn verifyPublicationTaskDispatch
+}
+
 String selectedTarget = (project.findProperty('mcVersion') ?: System.getenv('mcVersion'))?.toString()
 if (selectedTarget && !targetPipelines.containsKey(selectedTarget)) {
     throw new GradleException("Unknown Minecraft target: ${selectedTarget}")
@@ -186,4 +207,5 @@ tasks.named('assemble') {
 }
 tasks.named('check') {
     dependsOn verifyPublicationLogic
+    dependsOn verifyPublicationTaskDispatch
 }
