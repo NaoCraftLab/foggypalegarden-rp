@@ -228,6 +228,9 @@ final class PublicationSupport {
         if (relations instanceof Map) {
             relations = relations.projects
         }
+        if (!(relations instanceof List) && entry.dependencies instanceof List) {
+            relations = entry.dependencies
+        }
         if (!(relations instanceof List)) {
             return null
         }

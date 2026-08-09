@@ -119,12 +119,6 @@ The corresponding Gradle commands are `./gradlew clean check` and `./gradlew cle
 
 The automated gate verifies metadata, JSON, localization-key parity, target selection, Respackopts expansion, preset inclusion, unresolved placeholders, archive layout, ZIP integrity, and deterministic publication metadata. Visual fog behavior still requires in-game acceptance on every advertised loader.
 
-## 🚀 Publishing
-
-Production releases are published with the repository’s **Publish release** GitHub Actions workflow. Run it manually from `main`; the workflow invokes the single Gradle task `publishRelease`. Gradle reads the pack version and complete target matrix from the repository, builds and validates every archive, uploads only missing Modrinth and CurseForge versions, moves the numbered Git tag to the published commit, and replaces the corresponding GitHub Release.
-
-Configure the repository secrets `MODRINTH_TOKEN` and `CURSEFORGE_TOKEN` before running it. Modrinth and CurseForge receive every archive as `Foggy Pale Garden.zip`, while their visible version names retain the resource-pack and Minecraft versions. GitHub keeps unique artifact filenames so its multi-target release remains unambiguous.
-
 ## 🤗 Modpacks
 
 You’re free to include this resource pack in modpacks without requesting permission.

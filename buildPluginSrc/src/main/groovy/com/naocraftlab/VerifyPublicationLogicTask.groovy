@@ -146,6 +146,17 @@ abstract class VerifyPublicationLogicTask extends DefaultTask {
                 PublicationSupport.classify('curseforge', byKey['1.21.10'],
                         [numericCurseforge]).action == 'skip',
                 'numeric CurseForge release types must be normalized')
+        Map<String, Object> coreApiCurseforge = VerifyPublicationLogicTask.exactCurseforge(
+                byKey['1.21.10'])
+        coreApiCurseforge.releaseType = 2
+        coreApiCurseforge.dependencies = coreApiCurseforge.relations.projects.collect {
+            [modId: it.projectID, relationType: 3]
+        }
+        coreApiCurseforge.remove('relations')
+        PublicationSupport.requireState(
+                PublicationSupport.classify('curseforge', byKey['1.21.10'],
+                        [coreApiCurseforge]).action == 'skip',
+                'CurseForge Core API file metadata must be normalized')
 
         Map<String, Object> modrinthMetadata = PublicationSupport.modrinthMetadata(releaseTarget)
         PublicationSupport.requireState(

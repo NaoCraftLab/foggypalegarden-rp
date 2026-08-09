@@ -67,11 +67,12 @@ abstract class PublishReleaseTask extends DefaultTask {
                 repository, releasesDirectory.get().asFile, common, changelog)
 
         String modrinthToken = requireSecret('MODRINTH_TOKEN')
-        String curseforgeToken = requireSecret('CURSEFORGE_TOKEN')
+        String curseforgeApiKey = requireSecret('CURSEFORGE_API_KEY')
+        String curseforgeUploadToken = requireSecret('CURSEFORGE_UPLOAD_TOKEN')
         Map<String, String> github = preflightOnly.get() ? null : validateGithubMain()
         Map<String, List<Map<String, Object>>> remote = [
                 modrinth : fetchModrinth(modrinthToken),
-                curseforge: fetchCurseforge(curseforgeToken),
+                curseforge: fetchCurseforge(curseforgeApiKey),
         ]
         Map<String, Map<String, Map<String, Object>>> plan = classifyAll(targets, remote)
         appendSummary('Publication preflight', summaryRows(targets, plan))
@@ -83,7 +84,7 @@ abstract class PublishReleaseTask extends DefaultTask {
 
         remote = [
                 modrinth : fetchModrinth(modrinthToken),
-                curseforge: fetchCurseforge(curseforgeToken),
+                curseforge: fetchCurseforge(curseforgeApiKey),
         ]
         Map<String, Map<String, Map<String, Object>>> recheck = classifyAll(targets, remote)
         requireNoConflicts(targets, recheck)
@@ -111,7 +112,7 @@ abstract class PublishReleaseTask extends DefaultTask {
                     }
                     String remoteId = platform == 'modrinth'
                             ? uploadModrinth(target, modrinthToken)
-                            : uploadCurseforge(target, curseforgeToken)
+                            : uploadCurseforge(target, curseforgeUploadToken)
                     results << [target.name, platform, 'uploaded', remoteId]
                 }
             }
@@ -164,18 +165,39 @@ abstract class PublishReleaseTask extends DefaultTask {
         payload.findAll { it instanceof Map } as List<Map<String, Object>>
     }
 
-    private List<Map<String, Object>> fetchCurseforge(String token) {
-        String url = "${apiBase('CURSEFORGE_API_BASE', 'https://minecraft.curseforge.com')}" +
-                "/api/projects/${PublicationSupport.CURSEFORGE_PROJECT_ID}/files"
-        Object payload = json(request('GET', url, ['X-Api-Token': token], null, null,
-                [200] as Set<Integer>, [token]))
-        if (payload instanceof Map) {
-            payload = ['data', 'files', 'results'].collect { payload[it] }
-                    .find { it instanceof List }
+    private List<Map<String, Object>> fetchCurseforge(String apiKey) {
+        String base = apiBase('CURSEFORGE_API_BASE', 'https://api.curseforge.com')
+        int index = 0
+        int pageSize = 50
+        List<Map<String, Object>> files = []
+        while (true) {
+            String url = "${base}/v1/mods/${PublicationSupport.CURSEFORGE_PROJECT_ID}/files" +
+                    "?index=${index}&pageSize=${pageSize}"
+            Object payload = json(request('GET', url, ['X-API-Key': apiKey], null, null,
+                    [200] as Set<Integer>, [apiKey]))
+            PublicationSupport.requireState(payload instanceof Map && payload.data instanceof List,
+                    'CurseForge Core API file list response has no data array')
+            List<Map<String, Object>> page = payload.data.findAll {
+                it instanceof Map
+            } as List<Map<String, Object>>
+            files.addAll(page)
+
+            Map pagination = payload.pagination instanceof Map ? payload.pagination : [:]
+            int resultCount = pagination.resultCount instanceof Number
+                    ? (pagination.resultCount as Number).intValue() : page.size()
+            Integer totalCount = pagination.totalCount instanceof Number
+                    ? (pagination.totalCount as Number).intValue() : null
+            PublicationSupport.requireState(resultCount >= 0,
+                    'CurseForge Core API returned a negative result count')
+            index += resultCount
+            if (resultCount == 0 || (totalCount != null && index >= totalCount) ||
+                    (totalCount == null && page.size() < pageSize)) {
+                break
+            }
+            PublicationSupport.requireState(index <= 10_000,
+                    'CurseForge Core API pagination exceeded its documented limit')
         }
-        PublicationSupport.requireState(payload instanceof List,
-                'CurseForge file list response is not an array')
-        payload.findAll { it instanceof Map } as List<Map<String, Object>>
+        files
     }
 
     private String uploadModrinth(Map<String, Object> target, String token) {
@@ -207,7 +229,7 @@ abstract class PublishReleaseTask extends DefaultTask {
                  bytes: (target.artifact as File).bytes],
         ], boundary)
         HttpResult response = request('POST',
-                "${apiBase('CURSEFORGE_API_BASE', 'https://minecraft.curseforge.com')}" +
+                "${apiBase('CURSEFORGE_UPLOAD_API_BASE', 'https://legacy.curseforge.com')}" +
                         "/api/projects/${PublicationSupport.CURSEFORGE_PROJECT_ID}/upload-file",
                 ['X-Api-Token': token], body, "multipart/form-data; boundary=${boundary}",
                 [200, 201] as Set<Integer>, [token])

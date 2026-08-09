@@ -33,6 +33,7 @@ jobs:
       - name: Build, verify, and publish
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+          CURSEFORGE_UPLOAD_TOKEN: ${{ secrets.CURSEFORGE_UPLOAD_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
         run: ./gradlew publishRelease --console=plain --no-daemon
